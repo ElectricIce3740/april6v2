@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000; // Use environment port for hosting, default to 3000
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hey!');
 });
 
 app.get('/api/data', (req, res) => {
