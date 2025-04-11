@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000; // Use environment port for hosting, default to 3000
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-
+// hello
 const firebaseConfig = {
   apiKey: "AIzaSyAqVdmPlMufkY9b8TQyzc6-lQD6eLyWyXo",
   authDomain: "april6v2store.firebaseapp.com",
