@@ -32,13 +32,12 @@ async function fetchDocument(collectionID, documentID) {
 
 // Define routes
 app.get('/', async (req, res) => {
-
-  // const data = await fetchDocument("testid", "docid");
-  // if (data) {
-  //   res.json(data); // Send the document data as JSON
-  // } else {
-  //   res.status(404).send("No such document!");
-  // }
+  const data = await fetchDocument("testid", "docid");
+  if (data) {
+    res.json(data); // Send the document data as JSON
+  } else {
+    res.status(404).send("No such document!");
+  }
 });
 
 // Start the server
