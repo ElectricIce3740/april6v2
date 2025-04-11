@@ -12,11 +12,11 @@ const firebaseConfig = {
 };
 
 const app = express();
-const port = process.env.PORT || 3000; // Use environment port for hosting, default to 3000
+const port = process.env.PORT || 1234; // Use environment port for hosting, default to 3000
 const storeapp = initializeApp(firebaseConfig);
 const db = getFirestore(storeapp);
 
-// Wrap Firestore logic in an async function
+//Wrap Firestore logic in an async function
 async function fetchDocument(collectionID, documentID) {
   const docRef = doc(db, collectionID, documentID);
   const docSnap = await getDoc(docRef);
@@ -32,16 +32,13 @@ async function fetchDocument(collectionID, documentID) {
 
 // Define routes
 app.get('/', async (req, res) => {
-  const data = await fetchDocument("testid", "docid");
-  if (data) {
-    res.json(data); // Send the document data as JSON
-  } else {
-    res.status(404).send("No such document!");
-  }
-});
 
-app.get('/api/data', (req, res) => {
-  res.json({ message: 'This is some data from the backend!' });
+  // const data = await fetchDocument("testid", "docid");
+  // if (data) {
+  //   res.json(data); // Send the document data as JSON
+  // } else {
+  //   res.status(404).send("No such document!");
+  // }
 });
 
 // Start the server
