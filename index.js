@@ -1,7 +1,7 @@
 import express from 'express'
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-// hello
+
 const firebaseConfig = {
   apiKey: "AIzaSyAqVdmPlMufkY9b8TQyzc6-lQD6eLyWyXo",
   authDomain: "april6v2store.firebaseapp.com",
@@ -17,8 +17,8 @@ const storeapp = initializeApp(firebaseConfig);
 const db = getFirestore(storeapp);
 
 // Wrap Firestore logic in an async function
-async function fetchDocument() {
-  const docRef = doc(db, "testid", "docid");
+async function fetchDocument(collectionID, documentID) {
+  const docRef = doc(db, collectionID, documentID);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
@@ -32,7 +32,7 @@ async function fetchDocument() {
 
 // Define routes
 app.get('/', async (req, res) => {
-  const data = await fetchDocument();
+  const data = await fetchDocument("testid", "docid");
   if (data) {
     res.json(data); // Send the document data as JSON
   } else {
