@@ -1,7 +1,7 @@
 import express from 'express'
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { readFile } from 'node:fs/promises';
+import path from 'path';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAqVdmPlMufkY9b8TQyzc6-lQD6eLyWyXo",
@@ -16,17 +16,6 @@ const port = process.env.PORT || 1234; // Use environment port for hosting, defa
 const storeapp = initializeApp(firebaseConfig);
 const db = getFirestore(storeapp);
 
-async function fetchHtml(inputFilePath) {
-  try {
-    const filePath = new URL(inputFilePath, import.meta.url);
-    const contents = await readFile(filePath, { encoding: 'utf8' });
-    return contents;
-    console.log(contents);
-  } catch (err) {
-    console.error(err.message);
-  }
-}
-
 async function fetchDocument(collectionID, documentID) {
   const docRef = doc(db, collectionID, documentID);
   const docSnap = await getDoc(docRef);
@@ -40,10 +29,11 @@ async function fetchDocument(collectionID, documentID) {
   }
 }
 
+app.use(express.static('public'))
+
 // Define routes
 app.get('/', async (req, res) => {
-  const htmlResponse = fetchHtml('./public/index.html')
-  res.sendFile('./public/index.html', { root: '.' });
+  res.sendFile('./index.html', { root: '.' });
   // const data = await fetchDocument("testid", "docid");
   // if (data) {
   //   res.json(data); // Send the document data as JSON
