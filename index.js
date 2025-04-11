@@ -18,7 +18,7 @@ const db = getFirestore(storeapp);
 
 // Wrap Firestore logic in an async function
 async function fetchDocument() {
-  const docRef = doc(db, "cities", "SF");
+  const docRef = doc(db, "testid", "docid");
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
