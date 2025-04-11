@@ -1,6 +1,4 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000; // Use environment port for hosting, default to 3000
+import express from 'express'
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 // hello
@@ -13,6 +11,8 @@ const firebaseConfig = {
   appId: "1:935346908970:web:b165ea4e16abd19b0bb853"
 };
 
+const app = express();
+const port = process.env.PORT || 3000; // Use environment port for hosting, default to 3000
 const storeapp = initializeApp(firebaseConfig);
 const db = getFirestore(storeapp);
 
