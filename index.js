@@ -1,6 +1,7 @@
 import express from 'express'
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { readFile } from 'node:fs/promises';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAqVdmPlMufkY9b8TQyzc6-lQD6eLyWyXo",
@@ -10,13 +11,22 @@ const firebaseConfig = {
   messagingSenderId: "935346908970",
   appId: "1:935346908970:web:b165ea4e16abd19b0bb853"
 };
-
 const app = express();
 const port = process.env.PORT || 1234; // Use environment port for hosting, default to 3000
 const storeapp = initializeApp(firebaseConfig);
 const db = getFirestore(storeapp);
 
-//Wrap Firestore logic in an async function
+async function fetchHtml(inputFilePath) {
+  try {
+    const filePath = new URL(inputFilePath, import.meta.url);
+    const contents = await readFile(filePath, { encoding: 'utf8' });
+    return contents;
+    console.log(contents);
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+
 async function fetchDocument(collectionID, documentID) {
   const docRef = doc(db, collectionID, documentID);
   const docSnap = await getDoc(docRef);
@@ -32,12 +42,14 @@ async function fetchDocument(collectionID, documentID) {
 
 // Define routes
 app.get('/', async (req, res) => {
-  const data = await fetchDocument("testid", "docid");
-  if (data) {
-    res.json(data); // Send the document data as JSON
-  } else {
-    res.status(404).send("No such document!");
-  }
+  const htmlResponse = fetchHtml('./public/index.html')
+  res.sendFile('./public/index.html', { root: '.' });
+  // const data = await fetchDocument("testid", "docid");
+  // if (data) {
+  //   res.json(data); // Send the document data as JSON
+  // } else {
+  //   res.status(404).send("No such document!");
+  // }
 });
 
 // Start the server
