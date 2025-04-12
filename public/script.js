@@ -1,5 +1,5 @@
 async function getData() {
-    const url = "/data";
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=36.5484&longitude=-82.5618&daily=temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1&temperature_unit=fahrenheit";
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -20,7 +20,11 @@ async function getData() {
   }
 
 async function displayData() {
-    const answer = await getData();
+    const replyans = await getData();
+    const obj = JSON.parse(replyans);
+    const tempMax = await obj.daily.temperature_2m_max[0];
+    const tempMin = await obj.daily.temperature_2m_min[0];
+    const answer = `High: ${tempMax}°F Low: ${tempMin}°F`;
     console.log(answer);
     const tobeedited = document.getElementById('data');
     tobeedited.innerHTML = answer;
