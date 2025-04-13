@@ -1,8 +1,8 @@
+//imports
 import express from 'express'
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import path from 'path';
-
+//const
 const firebaseConfig = {
   apiKey: "AIzaSyAqVdmPlMufkY9b8TQyzc6-lQD6eLyWyXo",
   authDomain: "april6v2store.firebaseapp.com",
@@ -15,7 +15,11 @@ const app = express();
 const port = process.env.PORT || 1234; // Use environment port for hosting, default to 3000
 const storeapp = initializeApp(firebaseConfig);
 const db = getFirestore(storeapp);
-
+//middleware
+app.use(express.static('public'))
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+//functions
 async function fetchDocument(collectionID, documentID) {
   const docRef = doc(db, collectionID, documentID);
   const docSnap = await getDoc(docRef);
@@ -29,17 +33,9 @@ async function fetchDocument(collectionID, documentID) {
   }
 }
 
-app.use(express.static('public'))
-
 // Define routes
 app.get('/', async (req, res) => {
   res.sendFile('./index.html', { root: '.' });
-  // const data = await fetchDocument("testid", "docid");
-  // if (data) {
-  //   res.json(data); // Send the document data as JSON
-  // } else {
-  //   res.status(404).send("No such document!");
-  // }
 });
 
 app.get('/data', async (req, res) => {
@@ -49,6 +45,11 @@ app.get('/data', async (req, res) => {
   } else {
     res.status(404).send("No such document!");
   }
+});
+
+app.post('/example', (req, res) => {
+  console.log('Received POST request');
+  console.log('Request body:', req.body);
 });
 
 // Start the server
